@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
+using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D2_ExerciseLogAPI.ApiModels
 {
@@ -27,12 +31,12 @@ namespace CS321_W4D2_ExerciseLogAPI.ApiModels
 
         public static IEnumerable<ActivityTypeModel> ToApiModels(this IEnumerable<ActivityType> ActivityTypes)
         {
-            return ActivityTypes.Select(a => a.ToApiModel());
+            return ActivityTypes.Select(u => u.ToApiModel());
         }
 
         public static IEnumerable<ActivityType> ToDomainModels(this IEnumerable<ActivityTypeModel> ActivityTypeModels)
         {
-            return ActivityTypeModels.Select(a => a.ToDomainModel());
+            return ActivityTypeModels.Select(u => u.ToDomainModel());
         }
     }
 }

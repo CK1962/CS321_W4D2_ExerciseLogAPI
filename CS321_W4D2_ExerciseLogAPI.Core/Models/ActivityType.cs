@@ -1,7 +1,12 @@
 ﻿using System;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
+
 namespace CS321_W4D2_ExerciseLogAPI.Core.Models
 {
+
     public enum RecordType
+
     {
         DurationOnly, // only record duration
         DurationAndDistance // record duration and distance
@@ -9,8 +14,9 @@ namespace CS321_W4D2_ExerciseLogAPI.Core.Models
 
     public class ActivityType
     {
-        public int Id { get; set;  }
+        public int Id { get; set; }
         public string Name { get; set; }
         public RecordType RecordType { get; set; }
     }
+
 }

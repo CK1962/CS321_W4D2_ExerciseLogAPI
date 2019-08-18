@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
+using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D2_ExerciseLogAPI
 {
@@ -25,10 +29,23 @@ namespace CS321_W4D2_ExerciseLogAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: AddDbContext
-            // TODO: register repositories for injection
-            // TODO: register services for injection
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(optionsBuilder =>
+                {
+                    optionsBuilder.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
+
+            services.AddDbContext<AppDbContext>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<IActivityService, ActivityService>();
+
+            services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
+            services.AddScoped<IActivityTypeService, ActivityTypeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

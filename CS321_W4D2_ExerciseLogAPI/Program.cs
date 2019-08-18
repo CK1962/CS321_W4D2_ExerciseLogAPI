@@ -7,6 +7,11 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
+using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CS321_W4D2_ExerciseLogAPI
 {

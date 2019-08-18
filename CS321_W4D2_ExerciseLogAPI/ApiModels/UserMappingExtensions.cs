@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
+using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D2_ExerciseLogAPI.ApiModels
 {
@@ -12,7 +16,7 @@ namespace CS321_W4D2_ExerciseLogAPI.ApiModels
             return new UserModel
             {
                 Id = User.Id,
-                // TODO: fill in property mappings
+                Name = User.Name,
 
             };
         }
@@ -22,18 +26,19 @@ namespace CS321_W4D2_ExerciseLogAPI.ApiModels
             return new User
             {
                 Id = UserModel.Id,
+                Name = UserModel.Name,
                 // TODO: fill in property mappings
             };
         }
 
         public static IEnumerable<UserModel> ToApiModels(this IEnumerable<User> Users)
         {
-            return Users.Select(a => a.ToApiModel());
+            return Users.Select(u => u.ToApiModel());
         }
 
         public static IEnumerable<User> ToDomainModels(this IEnumerable<UserModel> UserModels)
         {
-            return UserModels.Select(a => a.ToDomainModel());
+            return UserModels.Select(u => u.ToDomainModel());
         }
     }
 }
