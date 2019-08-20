@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CS321_W4D2_ExerciseLogAPI.Core.Models;
+﻿using CS321_W4D2_ExerciseLogAPI.Core.Models;
 using CS321_W4D2_ExerciseLogAPI.Core.Services;
-using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
 {
@@ -15,30 +14,30 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
         {
             _DbContext = dbContext;
         }
-        public UserRepository Add(User user)
+        public User Add(User user)
         {
-            _DbContext.Users.Add(User);
+            _DbContext.Users.Add(user);
             _DbContext.SaveChanges();
-            return User;
+            return user;
         }
 
-        public UserRepository Get(int id)
+        public User Get(int id)
         {
             return _DbContext.Users
                 .Include(u => u.Activities)
-                .Include(u => u.ActivityType)
+                //.Include(u => u.ActivityType)
                 .SingleOrDefault(u => u.Id == id);
         }
 
-        public IEnumerable<UserRepository> GetAll()
+        public IEnumerable<User> GetAll()
         {
             return _DbContext.Users
                 .Include(u => u.Activities)
-                .Include(u => u.ActivityType)
+                //.Include(u => u.ActivityType)
                 .ToList();
         }
 
-        public UserRepository Update(UserRepository updatedUser)
+        public User Update(User updatedUser)
         {
             // get the ToDo object in the current list with this id 
             var currentUser = _DbContext.Users.Find(updatedUser.Id);

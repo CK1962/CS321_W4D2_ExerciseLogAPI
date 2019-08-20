@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using CS321_W4D2_ExerciseLogAPI.Core.Models;
+﻿using CS321_W4D2_ExerciseLogAPI.Core.Models;
 using CS321_W4D2_ExerciseLogAPI.Core.Services;
-using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
 {
@@ -16,14 +13,14 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
         {
             _DbContext = DbContext;
         }
-        public ActivityRepository Add(Activity Activity)
+        public Activity Add(Activity Activity)
         {
             _DbContext.Activity.Add(Activity);
             _DbContext.SaveChanges();
             return Activity;
         }
 
-        public ActivityRepository Get(int id)
+        public Activity Get(int id)
         {
             return _DbContext.Activity 
                 .SingleOrDefault(u => u.Id == id);
@@ -35,13 +32,13 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
                 .ToList();
         }
 
-        public ActivityRepository Update(Activity updatedActivity)
+        public Activity Update(Activity updatedActivity)
         {
             // get the ToDo object in the current list with this id 
-            var currentUser = _DbContext.Activity.Find(updatedActivity.Id);
+            var currentActivity = _DbContext.Activity.Find(updatedActivity.Id);
 
             // return null if todo to update isn't found
-            if (currentUser == null) return null;
+            if (currentActivity == null) return null;
 
             // NOTE: This method is already completed for you, but note
             // how the property values are copied below.
@@ -59,7 +56,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
             return currentActivity;
         }
 
-        public void Remove(ActivityRepository Activity)
+        public void Remove(Activity Activity)
         {
             _DbContext.Activity.Remove(Activity);
             _DbContext.SaveChanges();

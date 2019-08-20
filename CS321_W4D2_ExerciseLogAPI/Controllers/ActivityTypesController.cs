@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CS321_W4D2_ExerciseLogAPI.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CS321_W4D2_ExerciseLogAPI.Controllers
 {
-    private IActivityTypesService  _activityTypesService;
-            public UsersController(IActivityTypesService activityTypesService)
-    {
-        _activityTypesService = activityTypesService;
-    }
+
     [Route("api/[controller]")]
     public class ActivityTypesController : Controller
     {
+        private IActivityTypeService _activityTypeService;
+        public ActivityTypesController(IActivityTypeService activityTypeService)
+        {
+            _activityTypeService = activityTypeService;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()

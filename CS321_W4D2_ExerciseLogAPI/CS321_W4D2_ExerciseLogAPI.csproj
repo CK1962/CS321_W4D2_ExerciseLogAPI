@@ -18,6 +18,5 @@
   <ItemGroup>
     <ProjectReference Include="..\CS321_W4D2_ExerciseLogAPI.Core\CS321_W4D2_ExerciseLogAPI.Core.csproj" />
     <ProjectReference Include="..\CS321_W4D2_ExerciseLogAPI.Infrastructure\CS321_W4D2_ExerciseLogAPI.Infrastructure.csproj" />
-    <ProjectReference Include="..\CS321_W4D2_ExerciseLogAPI.Infrastructure\CS321_W4D2_ExerciseLogAPI.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

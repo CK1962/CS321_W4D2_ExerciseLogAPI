@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using CS321_W4D2_ExerciseLogAPI.Core.Models;
+﻿using CS321_W4D2_ExerciseLogAPI.Core.Models;
 using CS321_W4D2_ExerciseLogAPI.Core.Services;
-using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
 {
@@ -16,32 +13,32 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
         {
             _DbContext = DbContext;
         }
-        public ActivityTypeRepository Add(ActivityTypeRepository ActivityType)
+        public ActivityType Add(ActivityType ActivityType)
         {
-            _DbContext.ActivityTypeRepository.Add(ActivityType);
+            _DbContext.ActivityTypes.Add(ActivityType);
             _DbContext.SaveChanges();
             return ActivityType;
         }
 
-        public ActivityTypeRepository Get(int id)
+        public ActivityType Get(int id)
         {
-            return _DbContext.ActivityTypeRepository
+            return _DbContext.ActivityTypes
                 .SingleOrDefault(u => u.Id == id);
         }
 
-        public IEnumerable<ActivityTypeRepository> GetAll()
+        public IEnumerable<ActivityType> GetAll()
         {
-            return _DbContext.ActivityTypeRepository
+            return _DbContext.ActivityTypes
                 .ToList();
         }
 
-        public ActivityTypeRepository Update(ActivityTypeRepository updatedActivityType)
+        public ActivityType Update(ActivityType updatedActivityType)
         {
             // get the ToDo object in the current list with this id 
-            var currentUser = _DbContext.ActivityTypeRepository.Find(updatedActivityType.Id);
+            var currentActivityType = _DbContext.ActivityTypes.Find(updatedActivityType.Id);
 
             // return null if todo to update isn't found
-            if (currentUser == null) return null;
+            if (currentActivityType == null) return null;
 
             // NOTE: This method is already completed for you, but note
             // how the property values are copied below.
@@ -54,16 +51,15 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
                 .SetValues(updatedActivityType);
 
             // update the todo and save
-            _DbContext.ActivityTypeRepository.Update(currentActivityType);
+            _DbContext.ActivityTypes.Update(currentActivityType);
             _DbContext.SaveChanges();
             return currentActivityType;
         }
 
-        public void Remove(ActivityTypeRepository ActivityType)
+        public void Remove(ActivityType ActivityType)
         {
-            _DbContext.ActivityTypeRepository.Remove(Activity);
+            _DbContext.ActivityTypes.Remove(ActivityType);
             _DbContext.SaveChanges();
         }
     }
 }
-

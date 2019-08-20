@@ -1,9 +1,6 @@
-﻿using System;
+﻿using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
-using CS321_W4D2_ExerciseLogAPI.Core.Models;
-using CS321_W4D2_ExerciseLogAPI.Core.Services;
-using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D2_ExerciseLogAPI.ApiModels
 {
@@ -17,7 +14,7 @@ namespace CS321_W4D2_ExerciseLogAPI.ApiModels
         [Required]
         public int ActivityTypeId { get; set; }
         // TODO: Make ActivityType a string property that will contain the name of the activity type (update the mapping code)
-        public string ActivityType { get; set; }
+        public ActivityType ActivityType { get; set; }
 
         [Required]
         public double Duration { get; set; }
@@ -26,7 +23,7 @@ namespace CS321_W4D2_ExerciseLogAPI.ApiModels
         [Required]
         public int UserId { get; set; }
         // TODO: Make User a string property that will contain the User's name (updating the mapping code)
-        public string User { get; set; }
+        public User User { get; set; }
 
         public string Notes { get; set; }
     }

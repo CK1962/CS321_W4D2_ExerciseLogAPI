@@ -1,10 +1,6 @@
-﻿using System;
+﻿using CS321_W4D2_ExerciseLogAPI.ApiModels;
 using System.Collections.Generic;
 using System.Linq;
-using CS321_W4D2_ExerciseLogAPI.Core.Models;
-using CS321_W4D2_ExerciseLogAPI.Core.Services;
-using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D2_ExerciseLogAPI.Core.Models
 {
@@ -22,12 +18,12 @@ namespace CS321_W4D2_ExerciseLogAPI.Core.Models
                 Distance = activity.Distance,
 
                 // TODO: the ActivityType property should contain the name of the activity type
-                ActivityTypeId = ActivityType.Id,
-                ActivityType = ActivityType.Name,
+                ActivityTypeId = activity.ActivityType.Id,
+                ActivityType = activity.ActivityType,
                 // TODO: the User property should contain the user's name
-                UserId = User.UserId,
-                User = User.Name,
-                Notes = Activity.Notes,
+                UserId = activity.User.Id,
+                User = activity.User,
+                Notes = activity.Notes,
        
                 // TODO: Make User a string property that will contain the User's name (updating the mapping code)
             };
@@ -42,8 +38,8 @@ namespace CS321_W4D2_ExerciseLogAPI.Core.Models
                 Duration = activityModel.Duration,
                 Distance = activityModel.Distance,
                 // TODO: fill in property mappings
-                ActivityTypeId = ActivityTypeModel.Id,
-                ActivityType = ActivityTypeModel.Name,
+                ActivityTypeId = activityModel.ActivityTypeId,
+                ActivityType = activityModel.ActivityType,
 
                 // TODO: leave User and ActivityType null
             };
