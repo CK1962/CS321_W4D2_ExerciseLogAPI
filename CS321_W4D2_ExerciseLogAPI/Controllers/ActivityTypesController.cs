@@ -20,7 +20,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         public IActionResult Get(int id)
         {
             var activityType = _activityTypeService.Get(id);
-            var activityTypeModel = activityType.FindAll(u => u.ToApiModel());
+            var activityTypeModel = activityType.Select(u => u.ToApiModel());
             if (activityType == null) return NotFound();
             return Ok(activityTypeModel);
         }
