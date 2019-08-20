@@ -25,7 +25,6 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
         {
             return _DbContext.Users
                 .Include(u => u.Activities)
-                //.Include(u => u.ActivityType)
                 .SingleOrDefault(u => u.Id == id);
         }
 
@@ -33,7 +32,6 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
         {
             return _DbContext.Users
                 .Include(u => u.Activities)
-                //.Include(u => u.ActivityType)
                 .ToList();
         }
 

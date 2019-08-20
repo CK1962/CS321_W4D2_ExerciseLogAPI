@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CS321_W4D2_ExerciseLogAPI.Controllers
 {
@@ -16,36 +15,55 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
             _activityTypeService = activityTypeService;
         }
 
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var activityType = _activityTypeService.Get(id);
+            var activityTypeModel = activityType.FindAll(u => u.ToApiModel());
+            if (activityType == null) return NotFound();
+            return Ok(activityTypeModel);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]activityTypeModel newactivityType)
         {
+            try
+            {
+                _activityTypeService.Add(newActivityType.ToDomainModel());
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("AddActivityType", ex.GetBaseException().Message);
+                return BadRequest(ModelState);
+            }
+            return CreatedAtAction("Get", new { Id = newActivityType.Id }, newActivityType);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody] activityTypeModel updatedactivityType)
         {
+            var activityType = _activityTypeService.Update(updatedactivityType.ToDomainModel());
+            if (activityType == null) return NotFound();
+            return Ok(activityType.ToApiModel());
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _activityTypeService.Remove(activityType);
+                return NoContent();
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("DeleteActivityType", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }

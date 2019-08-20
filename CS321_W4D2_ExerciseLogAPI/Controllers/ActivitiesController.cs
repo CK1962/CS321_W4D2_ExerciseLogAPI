@@ -17,34 +17,62 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var activity = _activityService.GetAll();
+            var activityModel = activity.FindAll(u => u.ToApiModel());
+            return Ok(activityModel);
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var activity = _activityService.Get(id);
+            var activityModel = activity.FindAll(u => u.ToApiModel());
+            if (activity == null) return NotFound();
+            return Ok(activityModel);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]activityModel newactivity)
         {
+            try
+            {
+                _activityService.Add(newactivity.ToDomainModel());
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("AddActivity", ex.GetBaseException().Message);
+                return BadRequest(ModelState);
+            }
+            return CreatedAtAction("Get", new { Id = newactivity.Id }, newactivity);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody] activityModel updatedactivity)
         {
+            var activity = _activityService.Update(updatedactivity.ToDomainModel());
+            if (activity == null) return NotFound();
+            return Ok(activity.ToApiModel());
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _activityService.Remove(activity);
+                return NoContent();
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("DeleteActivity", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }

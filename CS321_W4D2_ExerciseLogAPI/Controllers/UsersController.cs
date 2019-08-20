@@ -7,9 +7,10 @@ using System.Collections.Generic;
 namespace CS321_W4D2_ExerciseLogAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    [ApiController]
+    public class UsersController : ControllerBase
     {
-        private IUserService  _userService;
+        private readonly IUserService _userService;
         public UsersController(IUserService userService)
         {
             _userService = userService;
@@ -17,34 +18,62 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var user = _userService.GetAll();
+            var userModel = User.FindAll(u => u.ToApiModel());
+            return Ok(userModel);
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var user = _userService.Get(id);
+            var userModel = User.FindAll(u => u.ToApiModel());
+            if (user == null) return NotFound();
+            return Ok(userModel);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]userModel newUser)
         {
+            try
+            {
+                _userService.Add(newUser.ToDomainModel());
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("AddUser", ex.GetBaseException().Message);
+                return BadRequest(ModelState);
+            }
+            return CreatedAtAction("Get", new { Id = newUser.Id }, newUser);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody] userModel updatedUser)
         {
+            var user = _userService.Update(updatedUser.ToDomainModel());
+            if (user == null) return NotFound();
+            return Ok(users.ToApiModel());
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _userService.Remove(user);
+                return NoContent();
+            }
+            catch (System.Exception ex)
+            {
+                ModelState.AddModelError("DeleteUser", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }
