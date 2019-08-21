@@ -1,7 +1,6 @@
-﻿using CS321_W4D2_ExerciseLogAPI.Core.Services;
+﻿using CS321_W4D2_ExerciseLogAPI.ApiModels;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-
 
 namespace CS321_W4D2_ExerciseLogAPI.Controllers
 {
@@ -20,14 +19,14 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         public IActionResult Get(int id)
         {
             var activityType = _activityTypeService.Get(id);
-            var activityTypeModel = activityType.Select(u => u.ToApiModel());
+            var activityTypeModel = activityType.ToApiModel();
             if (activityType == null) return NotFound();
             return Ok(activityTypeModel);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]activityTypeModel newactivityType)
+        public IActionResult Post([FromBody]ActivityTypeModel newActivityType)
         {
             try
             {
@@ -43,7 +42,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] activityTypeModel updatedactivityType)
+        public IActionResult Put(int id, [FromBody] ActivityTypeModel updatedactivityType)
         {
             var activityType = _activityTypeService.Update(updatedactivityType.ToDomainModel());
             if (activityType == null) return NotFound();
@@ -56,6 +55,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         {
             try
             {
+                var activityType = _activityTypeService.Get(id);
                 _activityTypeService.Remove(activityType);
                 return NoContent();
             }

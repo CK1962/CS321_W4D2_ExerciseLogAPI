@@ -1,6 +1,9 @@
-﻿using CS321_W4D2_ExerciseLogAPI.Core.Services;
+﻿using CS321_W4D2_ExerciseLogAPI.ApiModels;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +21,11 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> GetAll()
+        public IActionResult GetAll()
         {
-            var user = _userService.GetAll();
-            var UserModel = Users.Select(u => u.ToApiModel());
-            return Ok(UserModel);
+            var users = _userService.GetAll();
+            var userModel = users.Select(u => u.ToApiModel());
+            return Ok(userModel);
         }
 
         // GET api/<controller>/5
@@ -30,9 +33,9 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         public IActionResult Get(int id)
         {
             var user = _userService.Get(id);
-            var UserModel = Users.Select(u => u.ToApiModel());
+            var userModel = user.ToApiModel();
             if (user == null) return NotFound();
-            return Ok(UserModel);
+            return Ok(userModel);
         }
 
         // POST api/<controller>
@@ -53,11 +56,12 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UserModel updatedUser)
+        public IActionResult Put(int id, [FromBody] UserModel updatedUserModel)
         {
-            var user = _userService.Update(updatedUser.ToDomainModel());
+            var user = updatedUserModel.ToDomainModel();
+            var updatedUser = _userService.Update(user);
             if (user == null) return NotFound();
-            return Ok(UserService.ToApiModel());
+            return Ok(updatedUser.ToApiModel());
         }
 
         // DELETE api/<controller>/5
@@ -66,7 +70,8 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         {
             try
             {
-                _userService.Remove(User);
+                var user = _userService.Get(id);
+                _userService.Remove(user);
                 return NoContent();
             }
             catch (System.Exception ex)

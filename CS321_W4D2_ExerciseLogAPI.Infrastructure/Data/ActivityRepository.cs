@@ -1,5 +1,6 @@
 ﻿using CS321_W4D2_ExerciseLogAPI.Core.Models;
 using CS321_W4D2_ExerciseLogAPI.Core.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,8 @@ namespace CS321_W4D2_ExerciseLogAPI.Infrastructure.Data
         public IEnumerable<Activity> GetAll()
         {
             return _DbContext.Activity
+                .Include(x => x.User)
+                .Include(x => x.ActivityType)
                 .ToList();
         }
 

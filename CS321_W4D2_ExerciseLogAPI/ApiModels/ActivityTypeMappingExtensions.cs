@@ -1,16 +1,11 @@
-﻿using System;
+﻿using CS321_W4D2_ExerciseLogAPI.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
-using CS321_W4D2_ExerciseLogAPI.Core.Models;
-using CS321_W4D2_ExerciseLogAPI.Core.Services;
-using CS321_W4D2_ExerciseLogAPI.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace CS321_W4D2_ExerciseLogAPI.ApiModels
 {
     public static class ActivityTypeMappingExtenstions
     {
-
         public static ActivityTypeModel ToApiModel(this ActivityType ActivityType)
         {
             return new ActivityTypeModel

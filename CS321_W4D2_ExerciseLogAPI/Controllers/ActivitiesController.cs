@@ -1,6 +1,8 @@
-﻿using CS321_W4D2_ExerciseLogAPI.Core.Services;
+﻿using CS321_W4D2_ExerciseLogAPI.ApiModels;
+using CS321_W4D2_ExerciseLogAPI.Core.Models;
+using CS321_W4D2_ExerciseLogAPI.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,10 +19,10 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> GetAll()
+        public IActionResult GetAll()
         {
-            var activity = _activityService.GetAll();
-            var activityModel = activity.FindAll(u => u.ToApiModel());
+            var activities = _activityService.GetAll();
+            var activityModel = activities.Select(a => a.ToApiModel());
             return Ok(activityModel);
         }
 
@@ -29,32 +31,32 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         public IActionResult Get(int id)
         {
             var activity = _activityService.Get(id);
-            var activityModel = activity.FindAll(u => u.ToApiModel());
+            var activityModel = activity.ToApiModel();
             if (activity == null) return NotFound();
             return Ok(activityModel);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]activityModel newactivity)
+        public IActionResult Post([FromBody]ActivityModel newActivity)
         {
             try
             {
-                _activityService.Add(newactivity.ToDomainModel());
+                _activityService.Add(newActivity.ToDomainModel());
             }
             catch (System.Exception ex)
             {
                 ModelState.AddModelError("AddActivity", ex.GetBaseException().Message);
                 return BadRequest(ModelState);
             }
-            return CreatedAtAction("Get", new { Id = newactivity.Id }, newactivity);
+            return CreatedAtAction("Get", new { Id = newActivity.Id }, newActivity);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] activityModel updatedactivity)
+        public IActionResult Put(int id, [FromBody] ActivityModel updatedActivity)
         {
-            var activity = _activityService.Update(updatedactivity.ToDomainModel());
+            var activity = _activityService.Update(updatedActivity.ToDomainModel());
             if (activity == null) return NotFound();
             return Ok(activity.ToApiModel());
         }
@@ -65,6 +67,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
         {
             try
             {
+                var activity = _activityService.Get(id);
                 _activityService.Remove(activity);
                 return NoContent();
             }
