@@ -8,7 +8,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Core.Services
 {
     public class UserService : IUserService
     {
-        private IUserRepository _userRepo;
+        private readonly IUserRepository _userRepo;
 
         public UserService(IUserRepository userRepo)
         {

@@ -9,7 +9,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
     [Route("api/[controller]")]
     public class ActivitiesController : Controller
     {
-        private IActivityService _activityService;
+        private readonly IActivityService _activityService;
         public ActivitiesController(IActivityService activityService)
         {
             _activityService = activityService;

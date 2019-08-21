@@ -7,7 +7,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Core.Services
 {
     public class ActivityTypeService : IActivityTypeService
     {
-        private IActivityTypeRepository _activityTypeRepo;
+        private readonly IActivityTypeRepository _activityTypeRepo;
 
         public ActivityTypeService(IActivityTypeRepository ActivityTypeRepo)
         {

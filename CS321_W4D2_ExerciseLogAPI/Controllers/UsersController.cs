@@ -10,7 +10,7 @@ namespace CS321_W4D2_ExerciseLogAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         public UsersController(IUserService userService)
         {
             _userService = userService;
